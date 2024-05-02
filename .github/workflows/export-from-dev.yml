@@ -71,7 +71,7 @@ jobs:
 
     - name:  install power platform CLI
       run: |
-          wget https://aka.ms/PowerAppsCLI -O PowerAppsCLIInstaller.msi
+          Invoke-WebRequest -Uri https://aka.ms/PowerAppsCLI -OutFile PowerAppsCLIInstaller.msi
           msiexec /i PowerAppsCLIInstaller.msi /qn 
 
     - name: export configuraton data
