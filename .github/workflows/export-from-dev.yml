@@ -72,7 +72,7 @@ jobs:
     - name:  install power platform CLI
       run: |
           Invoke-WebRequest -Uri https://aka.ms/PowerAppsCLI -OutFile PowerAppsCLIInstaller.msi
-          msiexec /i PowerAppsCLIInstaller.msi /qn 
+          Start-Process msiexec.exe -Wait -ArgumentList '/i PowerAppsCLIInstaller.msi /qn'
 
     - name: export configuraton data
       run: | 
