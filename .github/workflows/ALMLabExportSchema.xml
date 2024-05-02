@@ -1,0 +1,26 @@
+<entities >
+  <entity name="msdyn_sustainabilityorganizationalunit" displayname="Organizational unit" etc="10398" primaryidfield="msdyn_sustainabilityorganizationalunitid" primarynamefield="msdyn_name" disableplugins="false">
+    <fields>
+      <field displayname="Address line 1" name="msdyn_addressstreet1" type="string" customfield="true" />
+      <field displayname="Address line 2" name="msdyn_addressstreet2" type="string" customfield="true" />
+      <field displayname="Approval status" name="msdyn_approvalstatus" type="optionsetvalue" customfield="true" />
+      <field displayname="City" name="msdyn_addresscity" type="string" customfield="true" />
+      <field displayname="Connection" name="msdyn_dataconnection" type="entityreference" lookupType="msdyn_dataconnection" customfield="true" />
+      <field displayname="ConnectionRefresh" name="msdyn_dataconnectionrefresh" type="entityreference" lookupType="msdyn_dataconnectionrefresh" customfield="true" />
+      <field displayname="Country/Region" name="msdyn_addresscountryisocode" type="string" customfield="true" />
+      <field displayname="Country/Region" name="msdyn_countryregioncode" type="entityreference" lookupType="msdyn_countryregion" customfield="true" />
+      <field displayname="County" name="msdyn_addresscounty" type="string" customfield="true" />
+      <field displayname="Description" name="msdyn_description" type="string" customfield="true" />
+      <field displayname="Latitude" name="msdyn_latitude" type="decimal" customfield="true" />
+      <field displayname="Longitude" name="msdyn_longitude" type="decimal" customfield="true" />
+      <field displayname="Name" name="msdyn_name" type="string" customfield="true" />
+      <field displayname="Organizational unit type" name="msdyn_organizationalunittype" type="optionsetvalue" customfield="true" />
+      <field displayname="Origin correlation ID" name="msdyn_origincorrelationid" type="string" customfield="true" />
+      <field displayname="Reporting organizational unit" name="msdyn_sustainabilityorganizationalunitid" type="guid" primaryKey="true" />
+      <field displayname="State/Province" name="msdyn_addressstateprovince" type="string" customfield="true" />
+      <field displayname="Version Number" name="versionnumber" type="bigint" />
+      <field displayname="ZIP/Postal code" name="msdyn_addresszippostalcode" type="string" customfield="true" />
+    </fields>
+    <relationships />
+  </entity>
+</entities>

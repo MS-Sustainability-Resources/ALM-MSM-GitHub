@@ -69,6 +69,11 @@ jobs:
         solution-type: 'Unmanaged'
         overwrite-files: true
 
+    - name: export configuraton data
+      run: | 
+        pac auth create --applicationId ${{env.CLIENT_ID}} --clientSecret ${{ secrets.PowerPlatformSPN }} --tenant ${{env.TENANT_ID}}
+        pac data export --schemaFile '.github/workflows/ALMLabExportSchema.xml' --dataFile ${{ github.event.inputs.solution_folder}}/configurationData.zip --environment ${{env.ENVIRONMENT_URL}} --overwrite
+        
     - name: branch-solution, prepare it for a PullRequest
       uses: microsoft/powerplatform-actions/branch-solution@v0
       with:
