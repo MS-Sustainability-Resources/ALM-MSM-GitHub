@@ -69,6 +69,12 @@ jobs:
         solution-type: 'Unmanaged'
         overwrite-files: true
 
+    - name: setup dotnet
+      uses: actions/setup-dotnet@v4
+
+    - name: install power platform CLI
+      run: dotnet tool install --global Microsoft.PowerApps.CLI.Tool
+
     - name: export configuraton data
       run: | 
         pac auth create --applicationId ${{env.CLIENT_ID}} --clientSecret ${{ secrets.PowerPlatformSPN }} --tenant ${{env.TENANT_ID}}
