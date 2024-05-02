@@ -69,11 +69,10 @@ jobs:
         solution-type: 'Unmanaged'
         overwrite-files: true
 
-    - name: setup dotnet
-      uses: actions/setup-dotnet@v4
-
-    - name: install power platform CLI
-      run: dotnet tool install --global Microsoft.PowerApps.CLI.Tool
+    - name:  install power platform CLI
+      run: |
+          wget https://aka.ms/PowerAppsCLI -O PowerAppsCLIInstaller.msi
+          msiexec /i PowerAppsCLIInstaller.msi /qn 
 
     - name: export configuraton data
       run: | 
