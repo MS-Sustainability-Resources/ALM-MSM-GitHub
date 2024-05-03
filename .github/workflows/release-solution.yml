@@ -123,6 +123,11 @@ jobs:
       with:
         name: managedSolutions
         path: ${{ inputs.solution_release_folder}}
+    - name: Fetch the ready to ship configuration data from GH artifact store
+      uses: actions/download-artifact@v2
+      with:
+        name: configurationData
+        path: ${{ inputs.solution_release_folder}}
     - name: Import solution to prod env
       uses: microsoft/powerplatform-actions/import-solution@v0
       with:
