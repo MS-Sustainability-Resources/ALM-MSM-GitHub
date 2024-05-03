@@ -69,18 +69,31 @@ jobs:
         solution-type: 'Unmanaged'
         overwrite-files: true
 
-    - name:  install power platform CLI
-      run: |
-          Invoke-WebRequest -Uri https://aka.ms/PowerAppsCLI -OutFile PowerAppsCLIInstaller.msi
-          Start-Process msiexec.exe -Wait -ArgumentList '/i PowerAppsCLIInstaller.msi -qn -l install.log'
-          type install.log
+    - name: export-solution action
+      uses: microsoft/powerplatform-actions/export-data@v0
+      with:
+        environment-url: ${{env.ENVIRONMENT_URL}}
+        app-id: ${{env.CLIENT_ID}}
+        client-secret: ${{ secrets.PowerPlatformSPN }}
+        tenant-id: ${{env.TENANT_ID}}
+        schema-file: .github/workflows/ALMLabExportSchema.xml
+        data-file: ${{ github.event.inputs.solution_folder}}configurationData.zip
 
-    - name: export configuraton data
-      run: | 
-        $pactool = $env:localappdata + "\Microsoft\PowerAppsCLI\pac"
-        Start-Process $pactool -ArgumentList "auth create --applicationId ${{env.CLIENT_ID}} --clientSecret ${{ secrets.PowerPlatformSPN }} --tenant ${{env.TENANT_ID}}"
-        Start-Process $pactool -ArgumentList "data export --schemaFile '.github/workflows/ALMLabExportSchema.xml' --dataFile ${{ github.event.inputs.solution_folder}}/configurationData.zip --environment ${{env.ENVIRONMENT_URL}} --overwrite"
-        
+#
+#
+#
+#    - name:  install power platform CLI
+#      run: |
+#        Invoke-WebRequest -Uri https://aka.ms/PowerAppsCLI -OutFile PowerAppsCLIInstaller.msi
+#        Start-Process msiexec.exe -Wait -ArgumentList '/i PowerAppsCLIInstaller.msi -qn -l install.log'
+#          type install.log
+#
+#    - name: export configuraton data
+#      run: | 
+#        $pactool = $env:localappdata + "\Microsoft\PowerAppsCLI\pac"
+#        Start-Process $pactool -ArgumentList "auth create --applicationId ${{env.CLIENT_ID}} --clientSecret ${{ secrets.PowerPlatformSPN }} --tenant ${{env.TENANT_ID}}"
+#        Start-Process $pactool -ArgumentList "data export --schemaFile '.github/workflows/ALMLabExportSchema.xml' --dataFile ${{ github.event.inputs.solution_folder}}configurationData.zip --environment ${{env.ENVIRONMENT_URL}} --overwrite"
+#        
     - name: branch-solution, prepare it for a PullRequest
       uses: microsoft/powerplatform-actions/branch-solution@v0
       with:
