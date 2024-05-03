@@ -5,29 +5,18 @@ name: export-and-branch-solution
 on:
   workflow_dispatch:
     inputs:
-      # Change this value
       solution_name:
         description: 'name of the solution to worked on from Power Platform'
         required: true
-        default: ALMLab
-       #Do Not change these values
-      solution_exported_folder:
-        description: 'folder name for staging the exported solution *do not change*'
-        required: true
-        default: out/exported/
-      solution_folder:
-        description: 'staging the unpacked solution folder before check-in *do not change*'
-        required: true
-        default: out/solutions/
-      solution_target_folder: 
-       description: 'folder name to be created and checked in *do not change*'
-       required: true
-       default: solutions/
+        default: ALMSolution
 env:
 #edit your values here
   ENVIRONMENT_URL: 'https://orgfec9c93d.crm.dynamics.com/'
   CLIENT_ID: 'c1b3bdd9-9a0d-4f68-aef3-096163ba4169'
   TENANT_ID: '9010db71-8f0f-422e-8e2f-6143a73436c1'
+  solution_exported_folder: out/exported/
+  solution_folder: out/solutions/
+  solution_target_folder: solutions/
 permissions:
   contents: write
 jobs:
@@ -59,17 +48,17 @@ jobs:
         client-secret: ${{ secrets.PowerPlatformSPN }}
         tenant-id: ${{env.TENANT_ID}}
         solution-name: ${{ github.event.inputs.solution_name }}
-        solution-output-file: ${{ github.event.inputs.solution_exported_folder}}/${{ github.event.inputs.solution_name }}.zip
+        solution-output-file: ${{ env.solution_exported_folder}}/${{ github.event.inputs.solution_name }}.zip
 
     - name: unpack-solution action
       uses: microsoft/powerplatform-actions/unpack-solution@v0
       with:
-        solution-file: ${{ github.event.inputs.solution_exported_folder}}/${{ github.event.inputs.solution_name }}.zip
-        solution-folder: ${{ github.event.inputs.solution_folder}}/${{ github.event.inputs.solution_name }}
+        solution-file: ${{ env.solution_exported_folder}}/${{ github.event.inputs.solution_name }}.zip
+        solution-folder: ${{ env.solution_folder}}/${{ github.event.inputs.solution_name }}
         solution-type: 'Unmanaged'
         overwrite-files: true
 
-    - name: export-solution action
+    - name: export-data action
       uses: microsoft/powerplatform-actions/export-data@v0
       with:
         environment-url: ${{env.ENVIRONMENT_URL}}
@@ -77,27 +66,12 @@ jobs:
         client-secret: ${{ secrets.PowerPlatformSPN }}
         tenant-id: ${{env.TENANT_ID}}
         schema-file: .github/workflows/ALMLabExportSchema.xml
-        data-file: ${{ github.event.inputs.solution_folder}}configurationData.zip
-
-#
-#
-#
-#    - name:  install power platform CLI
-#      run: |
-#        Invoke-WebRequest -Uri https://aka.ms/PowerAppsCLI -OutFile PowerAppsCLIInstaller.msi
-#        Start-Process msiexec.exe -Wait -ArgumentList '/i PowerAppsCLIInstaller.msi -qn -l install.log'
-#          type install.log
-#
-#    - name: export configuraton data
-#      run: | 
-#        $pactool = $env:localappdata + "\Microsoft\PowerAppsCLI\pac"
-#        Start-Process $pactool -ArgumentList "auth create --applicationId ${{env.CLIENT_ID}} --clientSecret ${{ secrets.PowerPlatformSPN }} --tenant ${{env.TENANT_ID}}"
-#        Start-Process $pactool -ArgumentList "data export --schemaFile '.github/workflows/ALMLabExportSchema.xml' --dataFile ${{ github.event.inputs.solution_folder}}configurationData.zip --environment ${{env.ENVIRONMENT_URL}} --overwrite"
-#        
+        data-file: ${{ env.solution_folder}}configurationData.zip
+        
     - name: branch-solution, prepare it for a PullRequest
       uses: microsoft/powerplatform-actions/branch-solution@v0
       with:
-        solution-folder: ${{ github.event.inputs.solution_folder}}
-        solution-target-folder: ${{ github.event.inputs.solution_target_folder}}
+        solution-folder: ${{ env.solution_folder}}
+        solution-target-folder: ${{ env.solution_target_folder}}
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         allow-empty-commit: true

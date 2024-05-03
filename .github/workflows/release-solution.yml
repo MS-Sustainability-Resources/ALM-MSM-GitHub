@@ -11,7 +11,7 @@ on:
       solution_name:
         description: 'The solution name.'
         type: string
-        default: ALMLab       
+        default: ALMSolution       
       solution_shipping_folder:
         description: 'folder name for staging the exported solution *do not change*'        
         type: string
@@ -28,6 +28,11 @@ on:
        description: 'folder where the released binaries are going to be hosted *do not change*'
        type: string
        default: out/release
+      configuration_data:
+        description: 'file where the where the configuration data is stored *do not change*'
+        type: string
+        default: solutions/ConfigurationData.zip
+ 
       BUILD_ENVIRONMENT_URL:
         description: 'Build environment url.'
         type: string
@@ -96,6 +101,12 @@ jobs:
         name: managedSolutions
         path: ${{ inputs.solution_shipping_folder}}/
 
+    - name: Upload the configuration data to GH artifact store
+      uses: actions/upload-artifact@v2
+      with:
+        name: configurationData
+        path: ${{ inputs.configuration_data}}/        
+
   release-to-staging:
     needs: [ convert-to-managed ]
     runs-on: windows-latest
@@ -122,3 +133,11 @@ jobs:
         solution-file: ${{ inputs.solution_release_folder}}/${{ inputs.solution_name }}_managed.zip
         force-overwrite: true
         publish-changes: true
+    - name: import-data action
+      uses: microsoft/powerplatform-actions/import-data@v0
+      with:
+        environment-url: ${{inputs.PRODUCTION_ENVIRONMENT_URL}}
+        app-id: ${{inputs.CLIENT_ID}}
+        client-secret: ${{ secrets.envSecret }}
+        tenant-id: ${{inputs.TENANT_ID}}
+        data-file: ${{ inputs.solution_release_folder}}/configurationData.zip
