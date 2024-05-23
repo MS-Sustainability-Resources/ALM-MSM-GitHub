@@ -11,9 +11,6 @@ on:
         default: ALMSolution
 env:
 #edit your values here
-  ENVIRONMENT_URL: 'https://orgfec9c93d.crm.dynamics.com/'
-  CLIENT_ID: 'c1b3bdd9-9a0d-4f68-aef3-096163ba4169'
-  TENANT_ID: '9010db71-8f0f-422e-8e2f-6143a73436c1'
   solution_exported_folder: out/exported/
   solution_folder: out/solutions/
   solution_target_folder: solutions/
@@ -22,7 +19,8 @@ permissions:
 jobs:
   export-from-dev:
     runs-on: windows-latest
-    # or you can say runs-on: ubuntu-latest
+    environment: 
+      name: DEV Environment
     env:
       RUNNER_DEBUG: 1
 
@@ -34,19 +32,19 @@ jobs:
     - name: who-am-i action
       uses: microsoft/powerplatform-actions/who-am-i@v0
       with:
-        environment-url: ${{env.ENVIRONMENT_URL}}
-        app-id: ${{env.CLIENT_ID}}
+        environment-url: ${{vars.ENVIRONMENT_URL}}
+        app-id: ${{vars.CLIENT_ID}}
         client-secret: ${{ secrets.PowerPlatformSPN }}
-        tenant-id: ${{env.TENANT_ID}}
+        tenant-id: ${{vars.TENANT_ID}}
 
 
     - name: export-solution action
       uses: microsoft/powerplatform-actions/export-solution@v0
       with:
-        environment-url: ${{env.ENVIRONMENT_URL}}
-        app-id: ${{env.CLIENT_ID}}
+        environment-url: ${{vars.ENVIRONMENT_URL}}
+        app-id: ${{vars.CLIENT_ID}}
         client-secret: ${{ secrets.PowerPlatformSPN }}
-        tenant-id: ${{env.TENANT_ID}}
+        tenant-id: ${{vars.TENANT_ID}}
         solution-name: ${{ github.event.inputs.solution_name }}
         solution-output-file: ${{ env.solution_exported_folder}}/${{ github.event.inputs.solution_name }}.zip
 
@@ -61,10 +59,10 @@ jobs:
     - name: export-data action
       uses: microsoft/powerplatform-actions/export-data@v0
       with:
-        environment-url: ${{env.ENVIRONMENT_URL}}
-        app-id: ${{env.CLIENT_ID}}
+        environment-url: ${{vars.ENVIRONMENT_URL}}
+        app-id: ${{vars.CLIENT_ID}}
         client-secret: ${{ secrets.PowerPlatformSPN }}
-        tenant-id: ${{env.TENANT_ID}}
+        tenant-id: ${{vars.TENANT_ID}}
         schema-file: .github/workflows/ALMLabExportSchema.xml
         data-file: ${{ env.solution_folder}}configurationData.zip
         

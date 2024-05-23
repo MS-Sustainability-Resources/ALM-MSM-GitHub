@@ -13,10 +13,5 @@ jobs:
     with:
       #You can specify the solution name here
       solution_name: ALMSolution
-      #Update your values here
-      BUILD_ENVIRONMENT_URL: https://msmbuildenv.crm.dynamics.com/
-      PRODUCTION_ENVIRONMENT_URL: https://org40121405.crm.dynamics.com/
-      CLIENT_ID: c1b3bdd9-9a0d-4f68-aef3-096163ba4169
-      TENANT_ID: 9010db71-8f0f-422e-8e2f-6143a73436c1    
     secrets:
       envSecret: ${{ secrets.PowerPlatformSPN }}
