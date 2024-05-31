@@ -1,5 +1,5 @@
 
-<entities xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" timestamp="2024-05-31T11:37:22.3168373Z">
+<entities xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" timestamp="2024-05-31T15:39:08.3725588Z">
   <entity name="msdyn_sustainabilityorganizationalunit" displayname="Organizational unit">
     <records>
       <record id="b534369b-811c-ec11-b6e6-000d3a5bc635">
@@ -337,6 +337,20 @@
   </entity>
   <entity name="msdyn_emissionfactor" displayname="Emission factor">
     <records>
+      <record id="c115b3c3-621f-ef11-840a-000d3a3246d5">
+        <field name="msdyn_approvalstatus" value="700610001" />
+        <field name="msdyn_co2" value="1.0000000000" />
+        <field name="msdyn_co2unit" value="55162266-bbf7-6480-9628-a71ca98a213a" lookupentity="msdyn_unit" lookupentityname="kg" />
+        <field name="createdon" value="2024-05-31T15:30:56.0000000Z" />
+        <field name="msdyn_emissionfactorid" value="c115b3c3-621f-ef11-840a-000d3a3246d5" />
+        <field name="msdyn_calculationlibraryid" value="cea4c662-c5be-ee11-9078-000d3a32f046" lookupentity="msdyn_calculationlibrary" lookupentityname="Test library" />
+        <field name="msdyn_isbiofuel" value="False" />
+        <field name="modifiedon" value="2024-05-31T15:30:56.0000000Z" />
+        <field name="msdyn_name" value="EF Added on May 31" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+        <field name="msdyn_unit" value="55162266-bbf7-6480-9628-a71ca98a213a" lookupentity="msdyn_unit" lookupentityname="kg" />
+      </record>
       <record id="69a04fe3-c5be-ee11-9078-000d3a32f046">
         <field name="msdyn_approvalstatus" value="700610001" />
         <field name="msdyn_co2" value="1.0000000000" />
