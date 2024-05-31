@@ -86,7 +86,7 @@ jobs:
         path: ${{ inputs.solution_shipping_folder}}/
     - name: pack configuration data
       shell: pwsh
-      run: Compress-Archive -Path ${{ inputs.configuration_data}} -DestinationPath ${{ inputs.configuration_data}}/configurationData.zip
+      run: Compress-Archive -Path ${{ inputs.configuration_data}}/* -DestinationPath ${{ inputs.configuration_data}}/configurationData.zip
     - name: Upload the configuration data to GH artifact store
       uses: actions/upload-artifact@v2
       with:
