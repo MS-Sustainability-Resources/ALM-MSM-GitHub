@@ -29,9 +29,9 @@ on:
        type: string
        default: out/release
       configuration_data:
-        description: 'file where the where the configuration data is stored *do not change*'
+        description: 'folder where the configuration data is stored *do not change*'
         type: string
-        default: solutions/ConfigurationData.zip
+        default: solutions/configurationData
     secrets:
       envSecret:
         description: 'The secret value for authentication using SPN'
@@ -84,12 +84,14 @@ jobs:
       with:
         name: managedSolutions
         path: ${{ inputs.solution_shipping_folder}}/
-
+    - name: pack configuration data
+      shell: pwsh
+      run: Compress-Archive -Path ${{ inputs.configuration_data}} -DestinationPath ${{ inputs.configuration_data}}/configurationData.zip
     - name: Upload the configuration data to GH artifact store
       uses: actions/upload-artifact@v2
       with:
         name: configurationData
-        path: ${{ inputs.configuration_data}}/        
+        path: ${{ inputs.configuration_data}}/configurationData.zip        
 
   release-to-staging:
     needs: [ convert-to-managed ]
