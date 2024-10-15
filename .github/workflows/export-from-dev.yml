@@ -34,7 +34,7 @@ jobs:
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         app-id: ${{vars.CLIENT_ID}}
-        client-secret: ${{ secrets.PowerPlatformSPN }}
+        client-secret: ${{ secrets.POWERPLATFORMAUTHSECRET }}
         tenant-id: ${{vars.TENANT_ID}}
 
 
@@ -43,17 +43,18 @@ jobs:
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         app-id: ${{vars.CLIENT_ID}}
-        client-secret: ${{ secrets.PowerPlatformSPN }}
+        client-secret: ${{ secrets.POWERPLATFORMAUTHSECRET }}
         tenant-id: ${{vars.TENANT_ID}}
         solution-name: ${{ github.event.inputs.solution_name }}
         solution-output-file: ${{ env.solution_exported_folder}}/${{ github.event.inputs.solution_name }}.zip
+        managed: true
 
     - name: unpack-solution action
       uses: microsoft/powerplatform-actions/unpack-solution@v0
       with:
         solution-file: ${{ env.solution_exported_folder}}/${{ github.event.inputs.solution_name }}.zip
         solution-folder: ${{ env.solution_folder}}/${{ github.event.inputs.solution_name }}
-        solution-type: 'Unmanaged'
+        solution-type: 'Managed'
         overwrite-files: true
 
     - name: export-data action
@@ -61,7 +62,7 @@ jobs:
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         app-id: ${{vars.CLIENT_ID}}
-        client-secret: ${{ secrets.PowerPlatformSPN }}
+        client-secret: ${{ secrets.POWERPLATFORMAUTHSECRET }}
         tenant-id: ${{vars.TENANT_ID}}
         schema-file: .github/workflows/ALMLabExportSchema.xml
         data-file: ${{ env.solution_folder}}configurationData.zip
@@ -73,11 +74,3 @@ jobs:
     - name: delete zipped configuration data
       shell: pwsh
       run: Remove-Item -Path ${{ env.solution_folder}}configurationData.zip 
-
-    - name: branch-solution, prepare it for a PullRequest
-      uses: microsoft/powerplatform-actions/branch-solution@v0
-      with:
-        solution-folder: ${{ env.solution_folder}}
-        solution-target-folder: ${{ env.solution_target_folder}}
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        allow-empty-commit: true
