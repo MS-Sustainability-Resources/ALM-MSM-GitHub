@@ -73,7 +73,7 @@ jobs:
         name: configurationData
         path: ${{ inputs.configuration_data}}/configurationData.zip        
 
-  release-to-staging:
+  release-to-test:
     needs: [ generate-artifacts ]
     runs-on: windows-latest
     environment: 
@@ -115,7 +115,7 @@ jobs:
         tenant-id: ${{vars.TENANT_ID}}
         data-file: ${{ inputs.solution_release_folder}}/configurationData.zip
   release-to-prod:
-    needs: [ release-to-staging ]
+    needs: [ release-to-test ]
     runs-on: windows-latest
     environment: 
       name: PROD Environment
