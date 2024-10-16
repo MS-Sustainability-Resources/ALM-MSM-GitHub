@@ -14,4 +14,4 @@ jobs:
       #You can specify the solution name here
       solution_name: ALMSolution
     secrets:
-      envSecret: ${{ secrets.PowerPlatformSPN }}
+      envSecret: ${{ secrets.POWERPLATFORMAUTHSECRET }}

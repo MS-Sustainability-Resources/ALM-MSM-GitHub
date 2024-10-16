@@ -1,7 +1,5 @@
-name: release-solution-to-prod-reusable
-# Reusable workflow
-# convert solution to managed (using a build PowerPlatform environment for the conversion)
-# upload the solution to the GitHub artifacts and deploy to the PROD environment
+name: release-solution-and-data
+
 on:
   workflow_call:
     inputs: 
@@ -38,96 +36,80 @@ on:
         required: true
 
 jobs:
-  convert-to-managed:
+  generate-artifacts:
     runs-on: windows-latest
-    environment: 
-      name: Build Environment
     env:
       RUNNER_DEBUG: 1
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Install Power Platform Tools
+      uses: microsoft/powerplatform-actions/actions-install@v1
+
+    - uses: actions/checkout@v4
       with:
         lfs: true
 
     - name: Pack solution
-      uses: microsoft/powerplatform-actions/pack-solution@v0
+      uses: microsoft/powerplatform-actions/pack-solution@v1
       with:
         solution-folder: ${{ inputs.solution_source_folder}}/${{ inputs.solution_name }}
         solution-file: ${{ inputs.solution_outbound_folder}}/${{ inputs.solution_name }}.zip
-        solution-type: Unmanaged
-
-    - name: Import solution as unmanaged to build env
-      uses: microsoft/powerplatform-actions/import-solution@v0
-      with:
-        environment-url: ${{vars.ENVIRONMENT_URL}}
-        app-id: ${{vars.CLIENT_ID}}
-        client-secret: ${{ secrets.envSecret }}
-        tenant-id: ${{vars.TENANT_ID}}
-        solution-file: ${{ inputs.solution_outbound_folder}}/${{ inputs.solution_name }}.zip
-        force-overwrite: true
-        publish-changes: true
-
-    - name: Export solution as managed
-      uses: microsoft/powerplatform-actions/export-solution@v0
-      with:
-        environment-url: ${{vars.ENVIRONMENT_URL}}
-        app-id: ${{vars.CLIENT_ID}}
-        client-secret: ${{ secrets.envSecret }} 
-        tenant-id: ${{vars.TENANT_ID}}
-        solution-name: ${{ inputs.solution_name }}
-        managed: true
-        solution-output-file: ${{ inputs.solution_shipping_folder}}/${{ inputs.solution_name }}_managed.zip
+        solution-type: Managed
 
     - name: Upload the ready to ship solution to GH artifact store
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: managedSolutions
         path: ${{ inputs.solution_shipping_folder}}/
+        
     - name: pack configuration data
       shell: pwsh
       run: Compress-Archive -Path ${{ inputs.configuration_data}}/* -DestinationPath ${{ inputs.configuration_data}}/configurationData.zip
+      
     - name: Upload the configuration data to GH artifact store
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: configurationData
         path: ${{ inputs.configuration_data}}/configurationData.zip        
 
-  release-to-staging:
-    needs: [ convert-to-managed ]
+  release-to-test:
+    needs: [ generate-artifacts ]
     runs-on: windows-latest
     environment: 
-      name: Environment B
+      name: TEST Environment
     env:
       RUNNER_DEBUG: 1
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Install Power Platform Tools
+      uses: microsoft/powerplatform-actions/actions-install@v1
+
+    - uses: actions/checkout@v4
       with:
         lfs: true
 
     - name: Fetch the ready to ship solution from GH artifact store
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: managedSolutions
         path: ${{ inputs.solution_release_folder}}
     - name: Fetch the ready to ship configuration data from GH artifact store
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: configurationData
         path: ${{ inputs.solution_release_folder}}
     - name: Import solution to QA env
-      uses: microsoft/powerplatform-actions/import-solution@v0
+      uses: microsoft/powerplatform-actions/import-solution@v1
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         app-id: ${{vars.CLIENT_ID}}
         client-secret: ${{ secrets.envSecret }}
         tenant-id: ${{vars.TENANT_ID}}
-        solution-file: ${{ inputs.solution_release_folder}}/${{ inputs.solution_name }}_managed.zip
+        solution-file: ${{ inputs.solution_release_folder}}/${{ inputs.solution_name }}.zip
         force-overwrite: true
         publish-changes: true
     - name: import-data action
-      uses: microsoft/powerplatform-actions/import-data@v0
+      uses: microsoft/powerplatform-actions/import-data@v1
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         app-id: ${{vars.CLIENT_ID}}
@@ -135,40 +117,43 @@ jobs:
         tenant-id: ${{vars.TENANT_ID}}
         data-file: ${{ inputs.solution_release_folder}}/configurationData.zip
   release-to-prod:
-    needs: [ release-to-staging ]
+    needs: [ release-to-test ]
     runs-on: windows-latest
     environment: 
-      name: Environment C
+      name: PROD Environment
     env:
       RUNNER_DEBUG: 1
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Install Power Platform Tools
+      uses: microsoft/powerplatform-actions/actions-install@v1
+
+    - uses: actions/checkout@v4
       with:
         lfs: true
 
     - name: Fetch the ready to ship solution from GH artifact store
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: managedSolutions
         path: ${{ inputs.solution_release_folder}}
     - name: Fetch the ready to ship configuration data from GH artifact store
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: configurationData
         path: ${{ inputs.solution_release_folder}}
     - name: Import solution to prod env
-      uses: microsoft/powerplatform-actions/import-solution@v0
+      uses: microsoft/powerplatform-actions/import-solution@v1
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         app-id: ${{vars.CLIENT_ID}}
         client-secret: ${{ secrets.envSecret }}
         tenant-id: ${{vars.TENANT_ID}}
-        solution-file: ${{ inputs.solution_release_folder}}/${{ inputs.solution_name }}_managed.zip
+        solution-file: ${{ inputs.solution_release_folder}}/${{ inputs.solution_name }}.zip
         force-overwrite: true
         publish-changes: true
     - name: import-data action
-      uses: microsoft/powerplatform-actions/import-data@v0
+      uses: microsoft/powerplatform-actions/import-data@v1
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         app-id: ${{vars.CLIENT_ID}}
