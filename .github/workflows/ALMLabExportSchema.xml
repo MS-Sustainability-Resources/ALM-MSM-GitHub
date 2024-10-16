@@ -61,12 +61,9 @@
       <field displayname="Module" name="msdyn_sustainabilitymodule" type="entityreference" lookupType="msdyn_sustainabilitymodule" customfield="true" />
       <field displayname="Name" name="msdyn_name" type="string" customfield="true" />
       <field displayname="Origin correlation ID" name="msdyn_origincorrelationid" type="string" customfield="true" />
-      <field displayname="Record created on" name="overriddencreatedon" type="datetime" />
       <field displayname="Status" name="statecode" type="state" />
       <field displayname="Status reason" name="statuscode" type="status" />
-      <field displayname="Time zone rule version number" name="timezoneruleversionnumber" type="number" />
       <field displayname="Type" name="msdyn_type" type="optionsetvalue" customfield="true" />
-      <field displayname="UTC conversion time zone code" name="utcconversiontimezonecode" type="number" />
       <field displayname="Version" name="msdyn_version" type="string" customfield="true" />
       <field displayname="Version Number" name="versionnumber" type="bigint" />
       <field displayname="Year" name="msdyn_year" type="string" customfield="true" />
@@ -94,15 +91,12 @@
       <field displayname="Modified on" name="modifiedon" type="datetime" />
       <field displayname="Name" name="msdyn_name" type="string" customfield="true" />
       <field displayname="Origin correlation ID" name="msdyn_origincorrelationid" type="string" customfield="true" />
-      <field displayname="Record created on" name="overriddencreatedon" type="datetime" />
       <field displayname="Reference data 1" name="msdyn_referencedataid" type="entityreference" lookupType="account|msdyn_accommodationtype|msdyn_businesstraveltype|msdyn_contractualinstrumenttype|msdyn_countryregion|msdyn_disposalmethod|msdyn_employeecommutingtype|msdyn_facility|msdyn_facilityannualdetail|msdyn_facilitytype|msdyn_fueltype|msdyn_geographicarea|msdyn_geographicareatype|msdyn_industrialprocesstype|msdyn_material|msdyn_organizationalunitrevenue|msdyn_spendtype|msdyn_sustainabilityorganizationalunit|msdyn_sustainabilityproduct|msdyn_sustainabilityproductidentifier|msdyn_transportmode|msdyn_valuechainpartner|msdyn_vehicletype" customfield="true" />
       <field displayname="Reference data 2" name="msdyn_referencedata2id" type="entityreference" lookupType="account|msdyn_accommodationtype|msdyn_businesstraveltype|msdyn_contractualinstrumenttype|msdyn_countryregion|msdyn_disposalmethod|msdyn_employeecommutingtype|msdyn_facility|msdyn_facilityannualdetail|msdyn_facilitytype|msdyn_fueltype|msdyn_geographicarea|msdyn_geographicareatype|msdyn_industrialprocesstype|msdyn_material|msdyn_organizationalunitrevenue|msdyn_spendtype|msdyn_sustainabilityorganizationalunit|msdyn_sustainabilityproduct|msdyn_sustainabilityproductidentifier|msdyn_transportmode|msdyn_valuechainpartner|msdyn_vehicletype" customfield="true" />
       <field displayname="Reference data 3" name="msdyn_referencedata3id" type="entityreference" lookupType="account|msdyn_accommodationtype|msdyn_businesstraveltype|msdyn_contractualinstrumenttype|msdyn_countryregion|msdyn_disposalmethod|msdyn_employeecommutingtype|msdyn_facility|msdyn_facilityannualdetail|msdyn_facilitytype|msdyn_fueltype|msdyn_geographicarea|msdyn_geographicareatype|msdyn_industrialprocesstype|msdyn_material|msdyn_organizationalunitrevenue|msdyn_spendtype|msdyn_sustainabilityorganizationalunit|msdyn_sustainabilityproduct|msdyn_sustainabilityproductidentifier|msdyn_transportmode|msdyn_valuechainpartner|msdyn_vehicletype" customfield="true" />
       <field displayname="Reference data 4" name="msdyn_referencedata4id" type="entityreference" lookupType="account|msdyn_accommodationtype|msdyn_businesstraveltype|msdyn_contractualinstrumenttype|msdyn_countryregion|msdyn_disposalmethod|msdyn_employeecommutingtype|msdyn_facility|msdyn_facilityannualdetail|msdyn_facilitytype|msdyn_fueltype|msdyn_geographicarea|msdyn_geographicareatype|msdyn_industrialprocesstype|msdyn_material|msdyn_organizationalunitrevenue|msdyn_spendtype|msdyn_sustainabilityorganizationalunit|msdyn_sustainabilityproduct|msdyn_sustainabilityproductidentifier|msdyn_transportmode|msdyn_valuechainpartner|msdyn_vehicletype" customfield="true" />
       <field displayname="Status" name="statecode" type="state" />
       <field displayname="Status reason" name="statuscode" type="status" />
-      <field displayname="Time zone rule version number" name="timezoneruleversionnumber" type="number" />
-      <field displayname="UTC conversion time zone code" name="utcconversiontimezonecode" type="number" />
       <field displayname="Version Number" name="versionnumber" type="bigint" />
     </fields>
     <relationships />
@@ -152,16 +146,13 @@
       <field displayname="Other GHGs unit" name="msdyn_otherghgsunit" type="entityreference" lookupType="msdyn_unit" customfield="true" />
       <field displayname="PFCs" name="msdyn_pfcs" type="decimal" customfield="true" />
       <field displayname="PFCs unit" name="msdyn_pfcsunit" type="entityreference" lookupType="msdyn_unit" customfield="true" />
-      <field displayname="Record created on" name="overriddencreatedon" type="datetime" />
       <field displayname="SF₆" name="msdyn_sf6" type="decimal" customfield="true" />
       <field displayname="SF₆ unit" name="msdyn_sf6unit" type="entityreference" lookupType="msdyn_unit" customfield="true" />
       <field displayname="Status" name="statecode" type="state" />
       <field displayname="Status reason" name="statuscode" type="status" />
       <field displayname="Sub type" name="msdyn_subtype" type="string" customfield="true" />
-      <field displayname="Time zone rule version number" name="timezoneruleversionnumber" type="number" />
       <field displayname="Type" name="msdyn_type" type="string" customfield="true" />
       <field displayname="Unit" name="msdyn_unit" type="entityreference" lookupType="msdyn_unit" customfield="true" />
-      <field displayname="UTC conversion time zone code" name="utcconversiontimezonecode" type="number" />
       <field displayname="Version Number" name="versionnumber" type="bigint" />
     </fields>
     <relationships />
@@ -191,14 +182,11 @@
       <field displayname="Modified on" name="modifiedon" type="datetime" />
       <field displayname="Name" name="msdyn_name" type="string" customfield="true" />
       <field displayname="Origin correlation ID" name="msdyn_origincorrelationid" type="string" customfield="true" />
-      <field displayname="Record created on" name="overriddencreatedon" type="datetime" />
       <field displayname="Status" name="statecode" type="state" />
       <field displayname="Status reason" name="statuscode" type="status" />
       <field displayname="Sub type" name="msdyn_subtype" type="string" customfield="true" />
-      <field displayname="Time zone rule version number" name="timezoneruleversionnumber" type="number" />
       <field displayname="Type" name="msdyn_type" type="string" customfield="true" />
       <field displayname="Unit" name="msdyn_unit" type="entityreference" lookupType="msdyn_unit" customfield="true" />
-      <field displayname="UTC conversion time zone code" name="utcconversiontimezonecode" type="number" />
       <field displayname="Version Number" name="versionnumber" type="bigint" />
     </fields>
     <relationships />
